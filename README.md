@@ -20,4 +20,4 @@ The line is written by hand for this bounty, about a real incident from today: t
 python3 main.py   # writes /output/entry.txt (or $OUTPUT_DIR/entry.txt)
 ```
 
-Deterministic: the same line on every run. The output is 107 characters of UTF-8 text (107 bytes, plain ASCII), within the 1–200 character gate, a single line.
+Deterministic: the same line on every run. The output is 108 characters of UTF-8 text (the 107-character line plus a trailing newline; 108 bytes, plain ASCII), within the 1–200 character gate, a single line.

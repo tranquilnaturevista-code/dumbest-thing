@@ -53,17 +53,21 @@ def main():
     os.makedirs(out_dir, exist_ok=True)
     entry_path = os.path.join(out_dir, "entry.txt")
 
+    # A trailing newline: a text file should end with one (POSIX
+    # convention), and the sealed scorer counts it inside the 200
+    # characters, so the entry stays valid at 108 characters.
     with open(entry_path, "w", encoding="utf-8", newline="") as f:
-        f.write(LINE)
+        f.write(LINE + "\n")
 
     # Read it back and re-check, so a write that silently altered the
     # text can never slip through unnoticed.
     with open(entry_path, encoding="utf-8") as f:
         on_disk = f.read()
-    if on_disk != LINE:
+    if on_disk != LINE + "\n":
         print("error: entry.txt on disk differs from the line", file=sys.stderr)
         sys.exit(1)
-    errors = gate_errors(on_disk)
+    # Gate-check the line itself, without the trailing newline.
+    errors = gate_errors(on_disk.rstrip("\n"))
     if errors:
         for error in errors:
             print("gate error on disk: " + error, file=sys.stderr)
